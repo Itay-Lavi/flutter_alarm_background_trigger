@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_alarm_background_trigger/src/AlarmItem.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
@@ -33,7 +32,7 @@ abstract class FlutterAlarmBackgroundTriggerPlatform extends PlatformInterface
 
   Future<T?> invokeNativeMethod<T>(ChannelMethods method, [AlarmItem? alarm]) {
     return instance.methodChannel
-        .invokeMethod<T>(describeEnum(method), alarm?.toMap());
+        .invokeMethod<T>(method.name, alarm?.toMap());
   }
 
   static Future<T?> invokeNativeMethodStatic<T>(ChannelMethods method,

@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_alarm_background_trigger/typedefs.dart';
 
 import 'flutter_alarm_background_trigger_platform_interface.dart';
@@ -45,7 +44,7 @@ class MethodChannelFlutterAlarmBackgroundTrigger
   void onForegroundAlarmEventHandler(OnForegroundAlarmEvent alarmEvent) {
     methodChannel.setMethodCallHandler((call) async {
       if (call.method ==
-          describeEnum(ChannelMethods.ON_BACKGROUND_ACTIVITY_LAUNCH)) {
+          ChannelMethods.ON_BACKGROUND_ACTIVITY_LAUNCH.name) {
         final String? raw = call.arguments as String?;
         if (raw != null) {
           final List<dynamic> jsonList = jsonDecode(raw);
@@ -92,9 +91,9 @@ class MethodChannelFlutterAlarmBackgroundTrigger
   }
 
   @override
-  Future<List<AlarmItem>> getAlarmByTime(DateTime dateTime) async {
+  Future<List<AlarmItem>> getAlarmByTime(DateTime time) async {
     final raw = await invokeNativeMethod<String>(
-        ChannelMethods.GET_BY_TIME, AlarmItem(time: dateTime));
+        ChannelMethods.GET_BY_TIME, AlarmItem(time: time));
     return AlarmItem.fromJsonList(jsonDecode(raw ?? '[]'));
   }
 

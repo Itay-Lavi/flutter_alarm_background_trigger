@@ -1,26 +1,28 @@
 import 'package:flutter/services.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_alarm_background_trigger/flutter_alarm_background_trigger_method_channel.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  MethodChannelFlutterAlarmBackgroundTrigger platform =
-      MethodChannelFlutterAlarmBackgroundTrigger();
   const MethodChannel channel =
       MethodChannel('flutter_alarm_background_trigger');
+  final platform = MethodChannelFlutterAlarmBackgroundTrigger();
 
   TestWidgetsFlutterBinding.ensureInitialized();
 
   setUp(() {
-    channel.setMockMethodCallHandler((MethodCall methodCall) async {
-      return '42';
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(channel, (MethodCall methodCall) async {
+      expect(methodCall.method, ChannelMethods.REQUEST_PERMISSION.name);
+      return true;
     });
   });
 
   tearDown(() {
-    channel.setMockMethodCallHandler(null);
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(channel, null);
   });
 
-  test('getPlatformVersion', () async {
-    expect(await platform.getPlatformVersion(), '42');
+  test('requestPermission returns the native result', () async {
+    expect(await platform.requestPermission(), true);
   });
 }

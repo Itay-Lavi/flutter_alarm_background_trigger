@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_alarm_background_trigger/flutter_alarm_background_trigger.dart';
@@ -22,7 +21,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  AlarmItem? _alarmItem;
   DateTime? time;
   List<AlarmItem> alarms = [];
 
@@ -89,7 +87,7 @@ class _MyAppState extends State<MyApp> {
                               const SizedBox(width: 5),
                               Chip(
                                 padding: EdgeInsets.zero,
-                                label: Text(describeEnum(alarm.status),
+                                label: Text(alarm.status.name,
                                     style: TextStyle(
                                         color: alarm.status == AlarmStatus.DONE
                                             ? Colors.black

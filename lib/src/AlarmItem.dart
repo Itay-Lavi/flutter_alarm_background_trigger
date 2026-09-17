@@ -2,8 +2,6 @@
 
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
-
 enum AlarmStatus { PENDING, DONE }
 
 enum AlarmArgKey { TIME, PAYLOAD, UID, ID, SCREEN_WAKE_DURATION }
@@ -33,7 +31,7 @@ class AlarmItem {
       payload: jsonDecode(data['payload'] ?? data['c'] ?? 'null'),
       uid: data['userUid'] ?? data['d'],
       status: AlarmStatus.values.firstWhere(
-        (e) => describeEnum(e) == (data['status'] ?? data['f']),
+        (e) => e.name == (data['status'] ?? data['f']),
       ),
       screenWakeDuration:
           Duration(milliseconds: data['screenWakeDuration'] ?? data['g']),
@@ -48,12 +46,12 @@ class AlarmItem {
 
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {};
-    map[describeEnum(AlarmArgKey.ID)] = id;
-    map[describeEnum(AlarmArgKey.TIME)] = time?.millisecondsSinceEpoch;
-    map[describeEnum(AlarmArgKey.PAYLOAD)] =
+    map[AlarmArgKey.ID.name] = id;
+    map[AlarmArgKey.TIME.name] = time?.millisecondsSinceEpoch;
+    map[AlarmArgKey.PAYLOAD.name] =
         payload != null ? jsonEncode(payload) : null;
-    map[describeEnum(AlarmArgKey.UID)] = uid;
-    map[describeEnum(AlarmArgKey.SCREEN_WAKE_DURATION)] =
+    map[AlarmArgKey.UID.name] = uid;
+    map[AlarmArgKey.SCREEN_WAKE_DURATION.name] =
         screenWakeDuration?.inMilliseconds;
     return map;
   }
