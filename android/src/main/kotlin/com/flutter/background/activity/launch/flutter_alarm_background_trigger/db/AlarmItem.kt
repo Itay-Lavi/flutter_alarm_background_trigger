@@ -4,9 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.flutter.background.activity.launch.flutter_alarm_background_trigger.AlarmArgs
-import kotlin.reflect.KClass
-
-
 @Entity(tableName = "alarm_items")
 class AlarmItem {
     @PrimaryKey(autoGenerate = true)
@@ -37,6 +34,7 @@ class AlarmItem {
             userUid = args.uid
             id = args.id ?: 0
             createdAt = System.currentTimeMillis()
+            screenWakeDuration = args.screenWakeDuration
         }
     }
 }

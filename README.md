@@ -27,6 +27,28 @@ void main() {
 
 ```
 
+#### Android exact-alarm setup
+
+This plugin schedules exact alarms. Apps targeting Android 12 (API 31) or
+newer must declare the exact-alarm access that is appropriate for the app in
+their Android manifest. For example, apps that ask the user for special app
+access can declare:
+
+```xml
+<uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+```
+
+Grant this access before calling `addAlarm`. If Android does not currently
+allow the app to schedule exact alarms, `addAlarm` fails with the platform
+error code `EXACT_ALARM_PERMISSION_DENIED` and no alarm is saved.
+
+The plugin declares `RECEIVE_BOOT_COMPLETED` and restores future pending
+alarms from its local database after a device reboot. Android delivers the
+boot broadcast only after the user has launched the installed app at least
+once. Alarms whose scheduled time passed while the device was powered off are
+marked `DONE`; they are not fired or deleted. Granting exact-alarm access later
+also causes future pending alarms to be restored.
+
 #### Create instance
 
 ```dart
@@ -72,6 +94,9 @@ alarmPlugin.requestPermission().then((isGranted){
 ```dart
 Future<bool> requestPermission()
 ```
+
+This method requests overlay permission only. Exact-alarm access must be
+handled by the application as described above.
 
 #### Add
 

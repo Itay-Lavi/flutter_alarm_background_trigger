@@ -168,9 +168,12 @@ class FlutterAlarmBackgroundTriggerPlugin : FlutterPlugin, MethodCallHandler, Ac
     }
 
     override fun onDetachedFromActivity() {
-        if(wakeLock != null){
-            wakeLock?.release()
+        wakeLock?.let { lock ->
+            if (lock.isHeld) {
+                lock.release()
+            }
         }
+        wakeLock = null
     }
 
     private var permissionResult: Result? = null
